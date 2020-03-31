@@ -22,16 +22,16 @@ import './styles.css';
 class PostRegister extends Component {
 
   state = {
-    rsocial: '',
+    nome: '',
     cnpj: '',
     cep: '',
     municipio: '',
     uf: '',
     logradouro: '',
     bairro: '',
-    number: '',
-    complement: '',
-    tell:'',
+    numero: '',
+    complemento: '',
+    telefone:'',
     email: '',
     password: '',
   }
@@ -57,21 +57,19 @@ class PostRegister extends Component {
         console.log("ok")
 
         const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        const url = await axios.get(`${proxyUrl}https://www.receitaws.com.br/v1/cnpj/${value}`)
-
-
-        const response = await fetch(url);
-
-        const data = await response.json();
-
-        console.log(data);
+        const response = await axios.get(`${proxyUrl}https://www.receitaws.com.br/v1/cnpj/${value}`)
 
         this.setState({
-          nome:data.nome,
-          uf:data.uf,
-          bairro:data.bairro,
-          logradouro:data.logradouro,
-          municipio:data.municipio,
+          nome:response.data.nome,
+          uf:response.data.uf,
+          bairro:response.data.bairro,
+          logradouro:response.data.logradouro,
+          municipio:response.data.municipio,
+          numero:response.data.numero,
+          cep:response.data.cep,
+          telefone:response.data.telefone,
+          complemento:response.data.complemento,
+
         
         })
       }
@@ -233,12 +231,12 @@ class PostRegister extends Component {
                   variant="outlined"
                   required
                   fullWidth
-                  id="number"
+                  id="numero"
                   label="Número"
-                  name="number"
-                  autoComplete="number"
-                  value={cnpj.numero}
-                  onChange={this.changeHandler}
+                  name="numero"
+                  autoComplete="numero"
+                  value={this.state.numero}
+                  onChange={this.changeCNPJ}
                 />
               </Grid>
 
@@ -253,7 +251,7 @@ class PostRegister extends Component {
                   label="Complemento"
                   name="complement"
                   autoComplete="complement"
-                  value={cnpj.complemento}
+                  value={this.state.complemento}
                   onChange={this.changeHandler}
                 />
               </Grid>
@@ -270,8 +268,8 @@ class PostRegister extends Component {
                   type="tell"
                   name="tell"
                   autoComplete="tell"
-                  value={cnpj.telefone}
-                  onChange={this.changeHandler}
+                  value={this.state.telefone}
+                  onChange={this.changeCNPJ}
                 />
               </Grid>
 
@@ -301,6 +299,21 @@ class PostRegister extends Component {
                   fullWidth
                   name="password"
                   label="Senha"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={this.changeHandler}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Confirmação de senha"
                   type="password"
                   id="password"
                   autoComplete="current-password"
